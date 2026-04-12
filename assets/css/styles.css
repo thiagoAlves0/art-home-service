@@ -46,6 +46,17 @@
 }
 
 /*========== Responsive typography ==========*/
+@media screen and (min-width: 768px) {
+  :root {
+    --big-font-size: 2.75rem; /* Intermediário para não parecer formiga */
+    --h1-font-size: 1.75rem;
+    --h2-font-size: 1.35rem;
+    --h3-font-size: 1.15rem;
+    --normal-font-size: 1rem;
+    --small-font-size: 0.85rem;
+  }
+}
+
 @media screen and (min-width: 1150px) {
   :root {
     --big-font-size: 3.5rem;
@@ -431,7 +442,9 @@ img {
   border: none;
   box-shadow: 0 4px 20px hsla(0, 0%, 0%, 0.05);
   padding: 0;
-  transition: box-shadow 0.4s, transform 0.4s ease;
+  transition:
+    box-shadow 0.4s,
+    transform 0.4s ease;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
@@ -515,7 +528,9 @@ img {
   border-radius: 0.5rem;
   margin-top: auto;
   width: 100%;
-  transition: box-shadow 0.4s, transform 0.4s;
+  transition:
+    box-shadow 0.4s,
+    transform 0.4s;
 }
 
 .services__cta i {
@@ -641,70 +656,213 @@ img {
 }
 
 .contact__data {
-  grid-template-columns: 230px;
+  grid-template-columns: minmax(300px, 380px);
   justify-content: center;
-  row-gap: 1.5rem;
+  row-gap: 0;
 }
 
 .contact__card {
   background-color: var(--container-color);
-  border: 2px solid var(--gray-border);
-  padding: 1.5rem 2rem;
-  text-align: center;
-  transition: border-color 0.4s;
-  border-radius: 1rem;
+  border: 1.5px solid var(--gray-border);
+  box-shadow: 0 4px 16px hsla(0, 0%, 0%, 0.04);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  transition:
+    box-shadow 0.4s,
+    border-color 0.4s;
+  display: flex;
+  flex-direction: column;
 }
 
-.contact__card:hover {
-  border-color: var(--first-color);
+/* Unified card overrides */
+.contact__unified {
+  padding: 0;
+  text-align: left;
+  border-color: hsla(18, 95%, 55%, 0.15);
 }
 
-.contact__icon {
+.contact__unified:hover {
+  border-color: hsla(18, 95%, 55%, 0.4);
+  box-shadow: 0 16px 40px hsla(18, 95%, 55%, 0.1);
+}
+
+/* Horizontal rows inside unified card */
+.contact__row {
+  display: flex;
+  align-items: center;
+  column-gap: 1.25rem;
+  padding: 1.5rem 1.75rem;
+  transition: transform 0.3s;
+}
+
+.contact__row:hover {
+  transform: translateX(0.25rem);
+}
+
+.contact__row-icon {
   width: 48px;
   height: 48px;
-  background-color: var(--black-color);
-  color: var(--white-color);
+  background-color: var(
+    --black-color
+  ); /* Retorno ao Preto Sólido (Maior Contraste) */
+  color: var(--first-color); /* Ícone Laranja forte brilhante no centro */
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 2rem;
-  margin: 0 auto 1.25rem;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  transition:
+    transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.3s;
+}
+
+.contact__row:hover .contact__row-icon {
+  transform: translateY(-0.15rem); /* Flutuação sutil, sem girar */
+  box-shadow: 0 8px 24px hsla(0, 0%, 0%, 0.2); /* Sombra densa */
+}
+
+.contact__row-text {
+  text-align: left;
+}
+
+.contact__row-label {
+  display: block;
+  font-size: var(--small-font-size);
+  font-weight: var(--font-bold);
+  color: var(--title-color);
+  margin-bottom: 0.2rem;
+  transition: color 0.3s;
+}
+
+.contact__row:hover .contact__row-label {
+  color: var(--first-color); /* Highlight elegante só na tipografia */
+}
+
+.contact__row-text address,
+.contact__row-text p {
+  font-style: normal;
+  font-size: var(--small-font-size);
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.contact__row-divider {
+  height: 1px;
+  background-color: var(--gray-border);
+  margin-inline: 1.75rem;
 }
 
 .contact__title {
-  font-size: var(--h2-font-size);
+  font-size: var(--h3-font-size);
   margin-bottom: 0.5rem;
+  color: var(--title-color);
 }
 
 .contact__info {
   font-style: normal;
+  color: var(--text-color);
+  font-size: var(--normal-font-size);
 }
 
 .contact__social {
   display: flex;
   justify-content: center;
-  column-gap: 1rem;
+  column-gap: 1.25rem;
   margin-top: 1.5rem;
 }
 
 .contact__social-link {
-  width: 40px;
-  height: 40px;
-  background-color: var(--first-color);
-  color: var(--white-color);
+  width: 44px;
+  height: 44px;
+  background-color: var(--container-color);
+  color: var(--first-color);
+  border: 2px solid hsla(18, 95%, 55%, 0.2);
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   transition:
-    transform 0.3s,
-    background-color 0.3s;
+    transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    background 0.4s,
+    color 0.4s,
+    border-color 0.4s,
+    box-shadow 0.4s;
 }
 
 .contact__social-link:hover {
-  transform: translateY(-0.25rem);
-  background-color: var(--first-color);
+  transform: translateY(-0.35rem) rotate(-10deg);
+  background: var(--first-gradient);
   color: var(--white-color);
+  border-color: transparent;
+  box-shadow: 0 8px 24px hsla(18, 95%, 55%, 0.3);
+}
+
+/* WhatsApp CTA Pill (Clean & Robust) */
+.contact__btn-whatsapp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.5rem;
+  background: var(--black-color); /* Fundo preto elegante/robusto */
+  color: var(--white-color); /* Texto branco */
+  font-weight: var(--font-semi-bold);
+  font-size: var(--normal-font-size);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 1.75rem 0;
+  border-radius: 3rem; /* Formato clássico Pílula (arredondado) de volta e aceito */
+  box-shadow: 0 4px 12px hsla(0, 0%, 0%, 0.1);
+  transition:
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.3s,
+    background 0.3s;
+}
+
+.contact__btn-whatsapp i {
+  font-size: 1.75rem;
+  color: var(
+    --first-color
+  ); /* Ícone do WhatsApp em Laranja cria um centro de atração incrível */
+  transition: color 0.3s;
+}
+
+.contact__btn-whatsapp:hover {
+  background: var(--first-gradient); /* Acende pro Laranja ao passar o mouse */
+  box-shadow: 0 8px 24px hsla(18, 95%, 55%, 0.4);
+  transform: translateY(-0.15rem);
+}
+
+.contact__btn-whatsapp:hover i {
+  color: var(--white-color); /* Vira branco focado */
+}
+
+/* Instagram footer link */
+.contact__social-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.4rem;
+  padding: 1.25rem 1.75rem 1.75rem;
+  font-size: var(--small-font-size);
+  color: var(--text-color-light);
+}
+
+.contact__social-footer-link {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 0.3rem;
+  color: var(--title-color);
+  font-weight: var(--font-medium);
+  transition: color 0.3s;
+}
+
+.contact__social-footer-link i {
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.contact__social-footer-link:hover,
+.contact__social-footer-link:hover i {
+  color: var(--first-color);
 }
 
 /*=============== FOOTER ===============*/
@@ -958,8 +1116,68 @@ img {
       grid-template-columns: repeat(2, 330px);
     }
 
-    .contact__data {
-      grid-template-columns: repeat(2, 240px);
+    /* GLOBAL RESPONSIVE SCALING: Tablets and Small Laptops */
+    .about__container,
+    .services__container {
+      grid-template-columns: min(720px, 100%); /* Safer scaling without horizontal overflow risk */
+    }
+
+    .home__container {
+      grid-template-columns: min(720px, 100%);
+      padding-block: 5rem 8rem; /* Extra vertical breathing room */
+    }
+
+    /* HOME COMPONENT SCALING */
+    .home__img-1 {
+      width: 520px;
+      margin-left: 2.5rem;
+    }
+
+    .home__img-2 {
+      width: 300px;
+      border-width: 8px;
+      left: 0;
+      bottom: -4rem;
+    }
+
+    /* ABOUT US COMPONENT SCALING */
+    .about__img-1 {
+      width: 340px;
+      left: 8.5rem;
+      top: -4rem;
+      border-width: 8px;
+    }
+
+    .about__img-2 {
+      width: 460px;
+    }
+
+    /* SERVICES COMPONENT SCALING (Prevents Swiper Squish) */
+    .services__card {
+      width: 340px;
+    }
+
+    .services__img-wrapper {
+      height: 240px;
+    }
+
+    /* contact__data: single unified card, no multi-column override needed */
+
+    .contact__container {
+      grid-template-columns: 100%; /* Destrava o container dos 360px de celulares grandes */
+    }
+
+    .contact__content {
+      grid-template-columns: repeat(
+        2,
+        1fr
+      ); /* Coloca Imagem e Card lado a lado */
+      align-items: center;
+      column-gap: 2rem;
+    }
+
+    .contact__img {
+      width: 100%; /* Imagem acompanha a coluna */
     }
 
     .footer__container {

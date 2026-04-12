@@ -1,42 +1,32 @@
 /*=============== SHOW MENU ===============*/
 const navMenu = document.getElementById('nav-menu'),
-    navToggle = document.getElementById('nav-toggle'),
-    navClose = document.getElementById('nav-close')
+      navToggle = document.getElementById('nav-toggle'),
+      navClose = document.getElementById('nav-close')
 
-/* meunu show */
+/* Menu show */
 if (navToggle) {
     navToggle.addEventListener('click', () => {
         navMenu.classList.add('show-menu')
     })
 }
 
-/* menu hidden */
+/* Menu hidden */
 if (navClose) {
     navClose.addEventListener('click', () => {
         navMenu.classList.remove('show-menu')
     })
 }
+
 /*=============== REMOVE MENU MOBILE ===============*/
 const navLink = document.querySelectorAll('.nav__link')
 
 const linkAction = () => {
     const navMenu = document.getElementById('nav-menu')
-    // Quando clicamos em cada nav__link, removemos a classe show-menu
     navMenu.classList.remove('show-menu')
 }
 navLink.forEach(n => n.addEventListener('click', linkAction))
 
-
-/*=============== CHANGE BACKGROUND HEADER ===============*/
-const bgHeader = () => {
-    const header = document.getElementById('header')
-    // Quando o scroll é maior que 50 viewport height, adicionamos a classe scroll-header ao header
-    this.scrollY >= 50 ? header.classList.add('bg-header')
-        : header.classList.remove('bg-header')
-}
-window.addEventListener('scroll', bgHeader)
-bgHeader()
-
+/*=============== SWIPER SERVICES ===============*/
 const swiperServices = new Swiper('.services__swiper', {
     loop: true,
     grabCursor: true,
@@ -58,38 +48,68 @@ const swiperServices = new Swiper('.services__swiper', {
         }
     }
 });
-/*=============== SHOW SCROLL UP ===============*/
-const scrollUp = () => {
-    const scrollUp = document.getElementById('scroll-up')
-    // Quando o scroll é maior que 350 viewport height, adicionamos a classe show-scroll ao a tag com a classe scrollup
-this.scrollY >= 350 ? scrollUp.classList.add('show-scroll')
-    : scrollUp.classList.remove('show-scroll')
-}
-window.addEventListener('scroll', scrollUp)
-scrollUp()
 
-/*=============== SCROLL SECTIONS ACTIVE LINK ===============*/
+/*=============== PERFORMANCE: CENTRALIZED SCROLL EVENTS ===============*/
+const header = document.getElementById('header')
+const scrollUpBtn = document.getElementById('scroll-up')
+
+const scrollHandler = () => {
+    // 1. Change Background Header
+    window.scrollY >= 50 ? header.classList.add('bg-header') 
+                         : header.classList.remove('bg-header')
+                         
+    // 2. Show Scroll Up Button
+    window.scrollY >= 350 ? scrollUpBtn.classList.add('show-scroll') 
+                          : scrollUpBtn.classList.remove('show-scroll')
+}
+
+// Ouve o evento de scroll uma única vez
+window.addEventListener('scroll', scrollHandler)
+scrollHandler() // Inicializa os estados no carregamento da página
+
+/*=============== SCROLL SECTIONS ACTIVE LINK (IntersectionObserver) ===============*/
 const sections = document.querySelectorAll('section[id]')
 
-// Link the ID of each section (section id="home") to each link (a href="#home") 
-// and activate the link with the class .active-link
-const scrollActive = () => {
-   // We get the position by scrolling down
-   const scrollY = window.scrollY
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.4 // Ativa o link quando 40% da seção estiver visível na tela
+};
 
-   sections.forEach(section => {
-      const id = section.id, // id of each section
-            top = section.offsetTop - 50, // Distance from the top edge
-            height = section.offsetHeight, // Element height
-            link = document.querySelector('.nav__menu a[href*=' + id + ']') // id nav link
+const observerCallback = (entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const id = entry.target.id;
+            const link = document.querySelector(`.nav__menu a[href*=${id}]`);
+            
+            // Remove a classe de todos os links antes de adicionar no novo
+            document.querySelectorAll('.nav__link').forEach(n => n.classList.remove('active-link'));
+            
+            if (link) {
+                link.classList.add('active-link');
+            }
+        }
+    });
+};
 
-      if(!link) return
+const sectionObserver = new IntersectionObserver(observerCallback, observerOptions);
 
-      link.classList.toggle('active-link', scrollY > top && scrollY <= top + height)
-   })
-}
-window.addEventListener('scroll', scrollActive)
-
+sections.forEach(section => {
+    sectionObserver.observe(section);
+});
 
 /*=============== SCROLL REVEAL ANIMATION ===============*/
+const sr = ScrollReveal({
+    origin: 'top',
+    distance: '100px',
+    duration: 2500,
+    delay: 400,
+    // reset: true, // se quiser que a animação se repita toda vez que o usuário rolar a página
+});
 
+sr.reveal('.home__content, .services__data, .services__swiper, .footer__container')
+sr.reveal('.home__images', { origin: 'bottom', delay: 1000 })
+sr.reveal('.about__images, .contact__img', { origin: 'left', })
+sr.reveal('.about__data, .contact__data', { origin: 'right', })
+sr.reveal('.projects__card', { interval: 100 })
+    

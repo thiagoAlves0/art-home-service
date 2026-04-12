@@ -31,7 +31,7 @@
          <div class="nav__menu" id="nav-menu">
             <ul class="nav__list">
                <li>
-                  <a href="#home" class="nav__link .active-link">Home</a>
+                  <a href="#home" class="nav__link active-link">Home</a>
                </li>
 
                <li>
@@ -320,58 +320,52 @@
 
                <!-- Cards -->
                <div class="contact__data grid">
+                  <!-- Bloco Unificado de Contato -->
+                  <div class="contact__card contact__unified">
 
-                  <!-- Card 1 - Localização -->
-                  <div class="contact__card">
-                     <div class="contact__icon">
-                        <i class="ri-map-pin-2-line"></i>
-                     </div>
-                     <div class="contact__info">
-                        <h3 class="contact__title">We're here</h3>
-                        <address>
-                           70 High School Rd, Hyannis<br>
-                           MA 02601, United States
-                        </address>
-                     </div>
-                  </div>
-
-                  <!-- Card 2 - Telefone -->
-                  <div class="contact__card">
-                     <div class="contact__icon">
-                        <i class="ri-phone-line"></i>
-                     </div>
-                     <div class="contact__info">
-                        <h3 class="contact__title">Call us</h3>
-                        <p>+1 (508) 237-0077</p>
-                     </div>
-                  </div>
-
-                  <!-- Card 3 - Redes Sociais -->
-                  <div class="contact__card">
-                     <div class="contact__icon">
-                        <i class="ri-message-3-line"></i>
-                     </div>
-                     <div class="contact__info">
-                        <h3 class="contact__title">Chat with us</h3>
-                        <div class="contact__social">
-                           <a href="https://api.whatsapp.com/send?phone=15082370077&text=Hi!%20I’d%20like%20to%20request%20a%20free%20estimate%20for%20your%20services.%20Could%20you%20please%20give%20me%20more%20details?"
-                              target="_blank" class="contact__social-link">
-                              <i class="ri-whatsapp-line"></i>
-                           </a>
-
-                           <a href="#" target="_blank" class="contact__social-link">
-                              <i class="ri-messenger-line"></i>
-                           </a>
-
-                           <a href="https://www.instagram.com/arthome.service/" target="_blank"
-                              class="contact__social-link">
-                              <i class="ri-instagram-line"></i>
-                           </a>
+                     <!-- Linha: Endereço -->
+                     <div class="contact__row">
+                        <div class="contact__row-icon">
+                           <i class="ri-map-pin-line"></i>
+                        </div>
+                        <div class="contact__row-text">
+                           <span class="contact__row-label">We're here</span>
+                           <address>70 High School Rd, Hyannis<br>MA 02601, United States</address>
                         </div>
                      </div>
+
+                     <div class="contact__row-divider"></div>
+
+                     <!-- Linha: Telefone -->
+                     <div class="contact__row">
+                        <div class="contact__row-icon">
+                           <i class="ri-phone-line"></i>
+                        </div>
+                        <div class="contact__row-text">
+                           <span class="contact__row-label">Call us</span>
+                           <p>+1 (508) 237-0077</p>
+                        </div>
+                     </div>
+
+                     <!-- Botão Pílula: WhatsApp -->
+                     <a href="https://api.whatsapp.com/send?phone=15082370077&text=Hi!%20I'd%20like%20to%20request%20a%20free%20estimate%20for%20your%20services.%20Could%20you%20please%20give%20me%20more%20details?"
+                        target="_blank" rel="noopener noreferrer" class="contact__btn-whatsapp">
+                        <i class="ri-whatsapp-line"></i>
+                        <span>Request a Quote on WhatsApp</span>
+                     </a>
+
+                     <!-- Rodapé: Instagram -->
+                     <div class="contact__social-footer">
+                        <span>Follow us on</span>
+                        <a href="https://www.instagram.com/arthome.service/" target="_blank"
+                           rel="noopener noreferrer" class="contact__social-footer-link">
+                           <i class="ri-instagram-line"></i> @arthome.service
+                        </a>
+                     </div>
+
                   </div>
 
-               </div>
+                   </div>
             </div>
          </div>
       </section>
@@ -444,7 +438,7 @@
       <i class="ri-arrow-up-line"></i>
    </a>
    <!--=============== SCROLLREVEAL ===============-->
-   <script src="https://unpkg.com/scrollreveal"></script>
+   <script src="assets/js/scrollreveal.min.js"></script>
 
    <!--=============== SWIPER JS ===============-->
    <script src="assets/js/swiper-bundle.min.js"></script>
