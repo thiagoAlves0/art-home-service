@@ -1,5 +1,5 @@
 /*=============== GOOGLE FONTS ===============*/
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
+/* As fontes agora são carregadas no HTML (<link rel="preconnect">) para melhor Performance/SEO */
 
 /*=============== VARIABLES CSS ===============*/
 :root {
@@ -7,22 +7,22 @@
 
   /*========== Colors ==========*/
   /*Color mode HSL(hue, saturation, lightness)*/
-  --first-color: hsl(18, 95%, 55%);
-  --second-color: hsl(42, 98%, 52%);
+  --first-color: hsl(25, 90%, 52%);
+  --second-color: hsl(30, 90%, 65%);
   --first-gradient: linear-gradient(
     90deg,
-    hsl(18, 95%, 55%),
-    hsl(18, 98%, 64%)
+    hsl(25, 90%, 52%),
+    hsl(30, 90%, 62%)
   );
-  --title-color: hsl(255, 12%, 12%);
-  --text-color: hsl(225, 12%, 24%);
-  --text-color-light: hsl(255, 4%, 70%);
+  --title-color: hsl(220, 15%, 12%);
+  --text-color: hsl(220, 10%, 28%);
+  --text-color-light: hsl(220, 8%, 65%);
   --body-color: hsl(0, 0%, 100%);
   --container-color: hsl(0, 0%, 100%);
   --white-color: hsl(0, 0%, 100%);
-  --black-color: hsl(255, 20%, 10%);
-  --gray-border: hsl(255, 6%, 90%);
-  --black-border: hsl(255, 10%, 20%);
+  --black-color: hsl(225, 65%, 12%);
+  --gray-border: hsl(220, 10%, 90%);
+  --black-border: hsl(225, 40%, 25%);
 
   /*========== Font and typography ==========*/
   /*.5rem = 8px | 1rem = 16px ...*/
@@ -175,9 +175,11 @@ img {
   transition: color 0.4s;
 }
 
-.nav__logo i {
-  color: var(--first-color);
-  font-size: 1.5rem;
+.nav__logo-img,
+.footer__logo-img {
+  width: 80px; /* Aumentado para compensar as margens da imagem */
+  height: auto;
+  margin-left: -1.5rem; /* Puxa para a esquerda para compensar o espaço vazio da imagem */
 }
 
 .nav__toggle,
@@ -216,6 +218,10 @@ img {
 }
 
 .nav__link:hover {
+  color: var(--first-color);
+}
+
+.active-link {
   color: var(--first-color);
 }
 
@@ -271,13 +277,32 @@ img {
 .home__title {
   color: var(--white-color);
   font-size: var(--big-font-size);
-  font-weight: var(--font-bold);
-  margin-bottom: 1rem;
+  font-weight: 800; /* Extra Bold para impacto editorial */
+  line-height: 1.1; /* Texto mais compacto e profissional */
+  letter-spacing: -0.02em; /* Estilo premium */
+  margin-bottom: 0.75rem; /* Reduzido para aproximar da descrição */
+}
+
+.home__subtitle {
+  display: block;
+  font-size: var(--small-font-size);
+  font-weight: var(--font-semi-bold);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--first-color);
+  margin-bottom: 0.5rem;
+}
+
+.home__title-color {
+  color: var(--first-color);
 }
 
 .home__description {
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
   color: var(--text-color-light);
+  line-height: 1.65; /* Melhor legibilidade */
+  max-width: 440px; /* Evita linhas cansativas */
+  margin-inline: auto; /* Centraliza no mobile */
 }
 
 .home__buttons {
@@ -296,31 +321,46 @@ img {
 .home__info-title {
   color: var(--second-color);
   font-size: var(--big-font-size);
-  font-weight: var(--font-bold);
-  margin-bottom: 0.5rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
 }
 
 .home__info-description {
   color: var(--white-color);
   font-size: var(--small-font-size);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
+/* Técnica de Empilhamento em Grid (mais robusto que position absolute puro) */
 .home__images {
+  display: grid;
+  justify-items: center; /* Centraliza o conjunto no layout */
   position: relative;
-  justify-self: center;
+}
+
+.home__img-1, 
+.home__img-2 {
+  grid-area: 1/1; /* Ambas imagens ocupam a mesma célula, ficando uma sobre a outra */
 }
 
 .home__img-1 {
-  width: 250px;
-  margin-left: 3.5rem;
+  width: 650px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem; /* Reduzido: menos 'adesivo', mais fotográfico */
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
 }
 
 .home__img-2 {
-  width: 150px;
-  border: 5px solid var(--black-color);
-  position: absolute;
-  left: 0;
-  bottom: -3.5rem;
+  justify-self: end;
+  align-self: start;
+  width: 140px; /* Aumentado proporcionalmente */
+  height: auto;
+  margin: 2rem;
+  filter: brightness(1.5) drop-shadow(0 2px 12px rgba(0,0,0,0.7));
+  z-index: 10;
 }
 
 .home__lines {
@@ -645,13 +685,22 @@ img {
 }
 
 /*=============== CONTACT ===============*/
+.contact {
+  background-color: hsl(220, 20%, 98%);
+}
+
 .contact__container {
   row-gap: 3rem;
-  padding-block: 1.5rem 3rem;
+  padding-block: 2rem 4rem;
 }
 
 .contact__img {
-  width: 320px;
+  width: 100%;
+  max-width: 480px;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 1.5rem;
+  box-shadow: 0 12px 32px hsla(225, 65%, 12%, 0.1);
   margin: 0 auto;
 }
 
@@ -663,13 +712,14 @@ img {
 
 .contact__card {
   background-color: var(--container-color);
-  border: 1.5px solid var(--gray-border);
-  box-shadow: 0 4px 16px hsla(0, 0%, 0%, 0.04);
-  border-radius: 1.25rem;
+  border: 1px solid var(--gray-border);
+  box-shadow: 0 12px 48px hsla(225, 65%, 12%, 0.05);
+  border-radius: 1.5rem;
   overflow: hidden;
   transition:
     box-shadow 0.4s,
-    border-color 0.4s;
+    border-color 0.4s,
+    transform 0.4s;
   display: flex;
   flex-direction: column;
 }
@@ -678,12 +728,15 @@ img {
 .contact__unified {
   padding: 0;
   text-align: left;
-  border-color: hsla(18, 95%, 55%, 0.15);
+  border-color: hsla(18, 95%, 55%, 0.1);
 }
 
-.contact__unified:hover {
-  border-color: hsla(18, 95%, 55%, 0.4);
-  box-shadow: 0 16px 40px hsla(18, 95%, 55%, 0.1);
+@media (hover: hover) {
+  .contact__unified:hover {
+    transform: translateY(-0.25rem);
+    border-color: hsla(18, 95%, 55%, 0.3);
+    box-shadow: 0 24px 64px hsla(18, 95%, 55%, 0.1);
+  }
 }
 
 /* Horizontal rows inside unified card */
@@ -695,8 +748,19 @@ img {
   transition: transform 0.3s;
 }
 
-.contact__row:hover {
-  transform: translateX(0.25rem);
+@media (hover: hover) {
+  .contact__row:hover {
+    transform: translateX(0.25rem);
+  }
+
+  .contact__row-link:hover {
+    background-color: hsl(220, 20%, 95%);
+    transform: translateX(0.4rem);
+  }
+
+  .contact__row-link:hover .contact__row-label i {
+    transform: translate(0.15rem, -0.15rem);
+  }
 }
 
 .contact__row-icon {
@@ -732,7 +796,56 @@ img {
   color: var(--title-color);
   margin-bottom: 0.2rem;
   transition: color 0.3s;
+  white-space: nowrap;
 }
+
+/*=============== COOKIE BANNER ===============*/
+.cookie__banner {
+  position: fixed;
+  bottom: -100%; /* Escondido inicialmente */
+  left: 0;
+  width: 100%;
+  background-color: var(--container-color);
+  box-shadow: 0 -4px 16px hsla(225, 65%, 12%, 0.1);
+  padding: 1.5rem;
+  z-index: var(--z-fixed);
+  transition: bottom 0.4s;
+}
+
+.show-cookie {
+  bottom: 0;
+}
+
+.cookie__content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  align-items: center;
+  text-align: center;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.cookie__content p {
+  font-size: var(--small-font-size);
+  color: var(--text-color);
+}
+
+.cookie__btn {
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  border: none;
+  font-family: var(--body-font);
+}
+
+@media screen and (min-width: 768px) {
+  .cookie__content {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
 
 .contact__row:hover .contact__row-label {
   color: var(--first-color); /* Highlight elegante só na tipografia */
@@ -748,8 +861,41 @@ img {
 
 .contact__row-divider {
   height: 1px;
-  background-color: var(--gray-border);
+  background-color: hsl(220, 10%, 94%);
   margin-inline: 1.75rem;
+}
+
+/* Perks / Diferenciais */
+.contact__perks {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+  padding: 2rem 1.75rem;
+}
+
+.contact__perk {
+  display: flex;
+  column-gap: 1rem;
+  align-items: flex-start;
+}
+
+.contact__perk i {
+  font-size: 1.25rem;
+  color: var(--first-color);
+  margin-top: 0.2rem;
+}
+
+.contact__perk-title {
+  font-size: var(--small-font-size);
+  font-weight: var(--font-bold);
+  color: var(--title-color);
+  margin-bottom: 0.15rem;
+}
+
+.contact__perk-description {
+  font-size: 0.75rem;
+  color: var(--text-color-light);
+  line-height: 1.4;
 }
 
 .contact__title {
@@ -802,27 +948,34 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  column-gap: 0.5rem;
-  background: var(--black-color); /* Fundo preto elegante/robusto */
-  color: var(--white-color); /* Texto branco */
+  column-gap: 0.75rem;
+  background: var(--first-gradient);
+  color: var(--white-color);
   font-weight: var(--font-semi-bold);
   font-size: var(--normal-font-size);
-  padding: 1.25rem 1.5rem;
-  margin: 1.5rem 1.75rem 0;
-  border-radius: 3rem; /* Formato clássico Pílula (arredondado) de volta e aceito */
-  box-shadow: 0 4px 12px hsla(0, 0%, 0%, 0.1);
+  padding: 1rem 2rem;
+  margin: 0 1.75rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 24px hsla(25, 90%, 52%, 0.2);
   transition:
-    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
-    box-shadow 0.3s,
-    background 0.3s;
+    transform 0.4s,
+    box-shadow 0.4s,
+    filter 0.4s;
+}
+
+.contact__btn-whatsapp:hover {
+  transform: translateY(-0.2rem);
+  box-shadow: 0 12px 32px hsla(25, 90%, 52%, 0.3);
+  filter: brightness(1.1);
 }
 
 .contact__btn-whatsapp i {
-  font-size: 1.75rem;
-  color: var(
-    --first-color
-  ); /* Ícone do WhatsApp em Laranja cria um centro de atração incrível */
-  transition: color 0.3s;
+  font-size: 1.5rem;
+  transition: transform 0.4s;
+}
+
+.contact__btn-whatsapp:hover i {
+  transform: scale(1.1);
 }
 
 .contact__btn-whatsapp:hover {
@@ -1041,6 +1194,12 @@ img {
     transform 0.4s;
 }
 
+.contact__row-link {
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
+}
+
 .scrollup:hover {
   transform: translateY(-0.5rem);
 }
@@ -1099,7 +1258,7 @@ img {
   .services__container,
   .projects__container,
   .contact__container {
-    grid-template-columns: 360px;
+    grid-template-columns: min(360px, 100%);
     justify-content: center;
   }
 
@@ -1119,7 +1278,10 @@ img {
     /* GLOBAL RESPONSIVE SCALING: Tablets and Small Laptops */
     .about__container,
     .services__container {
-      grid-template-columns: min(720px, 100%); /* Safer scaling without horizontal overflow risk */
+      grid-template-columns: min(
+        720px,
+        100%
+      ); /* Safer scaling without horizontal overflow risk */
     }
 
     .home__container {
@@ -1172,12 +1334,15 @@ img {
         2,
         1fr
       ); /* Coloca Imagem e Card lado a lado */
-      align-items: center;
+      align-items: stretch;
       column-gap: 2rem;
     }
 
     .contact__img {
-      width: 100%; /* Imagem acompanha a coluna */
+      width: 100%;
+      height: 520px;
+      object-fit: cover;
+      border-radius: 1.5rem;
     }
 
     .footer__container {
@@ -1234,7 +1399,7 @@ img {
   /* min-height movido para o CSS base de .home */
 
   .home__container {
-    grid-template-columns: 475px 550px;
+    grid-template-columns: 475px 650px;
     column-gap: 6rem;
     align-items: flex-start;
     padding-top: 5.5rem;
@@ -1251,32 +1416,32 @@ img {
 
   .home__description {
     margin-bottom: 3rem;
+    margin-inline: 0;
   }
 
   .home__buttons {
     justify-content: initial;
-    column-gap: 3rem;
+    column-gap: 2rem;
   }
 
   .home__info {
     justify-content: initial;
-    column-gap: 5.5rem;
+    column-gap: 4rem;
   }
 
   .home__info-description {
-    font-size: var(--normal-font-size);
+    font-size: var(--small-font-size);
   }
 
   .home__img-1 {
-    width: 550px;
+    width: 650px;
     margin-left: 0;
   }
 
   .home__img-2 {
-    width: 350px;
-    border-width: 10px;
-    left: -7rem;
-    bottom: -8rem;
+    width: 150px;
+    top: 2rem;
+    right: 2rem;
   }
 
   .home__lines {
@@ -1387,12 +1552,15 @@ img {
   .contact__content {
     grid-template-columns: 530px 515px;
     justify-content: initial;
-    align-items: flex-start;
+    align-items: stretch;
     column-gap: 4rem;
   }
 
   .contact__img {
     width: 530px;
+    height: 600px;
+    object-fit: cover;
+    border-radius: 1.5rem;
   }
 
   .contact__data {

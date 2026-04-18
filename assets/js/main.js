@@ -63,9 +63,18 @@ const scrollHandler = () => {
                           : scrollUpBtn.classList.remove('show-scroll')
 }
 
-// Ouve o evento de scroll uma única vez
-window.addEventListener('scroll', scrollHandler)
-scrollHandler() // Inicializa os estados no carregamento da página
+// Otimização do evento de scroll em requestAnimationFrame
+let ticking = false;
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            scrollHandler();
+            ticking = false;
+        });
+        ticking = true;
+    }
+});
+scrollHandler(); // Inicializa os estados no carregamento da página
 
 /*=============== SCROLL SECTIONS ACTIVE LINK (IntersectionObserver) ===============*/
 const sections = document.querySelectorAll('section[id]')
@@ -112,4 +121,20 @@ sr.reveal('.home__images', { origin: 'bottom', delay: 1000 })
 sr.reveal('.about__images, .contact__img', { origin: 'left', })
 sr.reveal('.about__data, .contact__data', { origin: 'right', })
 sr.reveal('.projects__card', { interval: 100 })
-    
+
+/*=============== COOKIE BANNER LOGIC ===============*/
+const cookieBanner = document.getElementById('cookie-banner');
+const cookieAcceptBtn = document.getElementById('cookie-accept');
+
+if (cookieBanner && cookieAcceptBtn) {
+    if (!localStorage.getItem('cookieAccepted')) {
+        setTimeout(() => {
+            cookieBanner.classList.add('show-cookie');
+        }, 2000);
+    }
+
+    cookieAcceptBtn.addEventListener('click', () => {
+        cookieBanner.classList.remove('show-cookie');
+        localStorage.setItem('cookieAccepted', 'true');
+    });
+}
