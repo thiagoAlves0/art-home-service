@@ -1,140 +1,196 @@
-/*=============== SHOW MENU ===============*/
-const navMenu = document.getElementById('nav-menu'),
-      navToggle = document.getElementById('nav-toggle'),
-      navClose = document.getElementById('nav-close')
+(() => {
+    'use strict';
 
-/* Menu show */
-if (navToggle) {
-    navToggle.addEventListener('click', () => {
-        navMenu.classList.add('show-menu')
-    })
-}
+    const menu = document.getElementById('nav-menu');
+    const toggle = document.getElementById('nav-toggle');
+    const close = document.getElementById('nav-close');
+    const backdrop = document.getElementById('nav-backdrop');
+    const header = document.getElementById('header');
+    const scrollUp = document.getElementById('scroll-up');
+    const desktop = window.matchMedia('(min-width: 960px)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const navLinks = [...document.querySelectorAll('.nav__link[href^="#"]')];
+    let menuOpen = false;
 
-/* Menu hidden */
-if (navClose) {
-    navClose.addEventListener('click', () => {
-        navMenu.classList.remove('show-menu')
-    })
-}
+    const targetFor = (link) => {
+        try {
+            return document.getElementById(decodeURIComponent(link.hash.slice(1)));
+        } catch {
+            return null;
+        }
+    };
 
-/*=============== REMOVE MENU MOBILE ===============*/
-const navLink = document.querySelectorAll('.nav__link')
+    const focusableItems = () => [...menu.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )].filter((element) => element.tabIndex >= 0 && !element.hidden && element.getClientRects().length > 0);
 
-const linkAction = () => {
-    const navMenu = document.getElementById('nav-menu')
-    navMenu.classList.remove('show-menu')
-}
-navLink.forEach(n => n.addEventListener('click', linkAction))
+    function setMenu(open, returnFocus = false) {
+        if (!menu || !toggle) return;
 
-/*=============== SWIPER SERVICES ===============*/
-const swiperServices = new Swiper('.services__swiper', {
-    loop: true,
-    grabCursor: true,
-    spaceBetween: 20,
-    slidesPerView: 'auto',
-    centeredSlides: false,
-    pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-    },
-    breakpoints: {
-        768: {
-            slidesPerView: 2,
-            spaceBetween: 24,
-        },
-        1150: {
-            slidesPerView: 3,
-            spaceBetween: 24,
+        menuOpen = open && !desktop.matches;
+        // Move focus before hiding the panel from assistive technology.
+        if (!menuOpen && returnFocus && !desktop.matches) toggle.focus();
+        menu.classList.toggle('show-menu', menuOpen);
+        document.body.classList.toggle('menu-open', menuOpen);
+        toggle.setAttribute('aria-expanded', String(menuOpen));
+        menu.inert = !desktop.matches && !menuOpen;
+        if (desktop.matches) menu.removeAttribute('aria-hidden');
+        else menu.setAttribute('aria-hidden', String(!menuOpen));
+        if (backdrop) backdrop.hidden = !menuOpen;
+
+        if (menuOpen) {
+            // Wait for the panel's visibility change before moving keyboard focus.
+            window.requestAnimationFrame(() => {
+                if (!menuOpen || desktop.matches) return;
+                const firstItem = focusableItems()[0];
+                (close || firstItem)?.focus({ preventScroll: true });
+            });
         }
     }
-});
 
-/*=============== PERFORMANCE: CENTRALIZED SCROLL EVENTS ===============*/
-const header = document.getElementById('header')
-const scrollUpBtn = document.getElementById('scroll-up')
+    toggle?.addEventListener('click', () => setMenu(!menuOpen, menuOpen));
+    close?.addEventListener('click', () => setMenu(false, true));
+    backdrop?.addEventListener('click', () => setMenu(false, true));
 
-const scrollHandler = () => {
-    // 1. Change Background Header
-    window.scrollY >= 50 ? header.classList.add('bg-header') 
-                         : header.classList.remove('bg-header')
-                         
-    // 2. Show Scroll Up Button
-    window.scrollY >= 350 ? scrollUpBtn.classList.add('show-scroll') 
-                          : scrollUpBtn.classList.remove('show-scroll')
-}
-
-// Otimização do evento de scroll em requestAnimationFrame
-let ticking = false;
-window.addEventListener('scroll', () => {
-    if (!ticking) {
-        window.requestAnimationFrame(() => {
-            scrollHandler();
-            ticking = false;
+    menu?.querySelectorAll('a[href]').forEach((link) => {
+        link.addEventListener('click', () => {
+            if (!menuOpen) return;
+            const target = link.origin === location.origin && link.pathname === location.pathname
+                ? targetFor(link) : null;
+            if (target) {
+                const hadTabIndex = target.hasAttribute('tabindex');
+                if (!hadTabIndex) {
+                    target.setAttribute('tabindex', '-1');
+                    target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
+                }
+                target.focus({ preventScroll: true });
+            }
+            setMenu(false, !target);
         });
-        ticking = true;
-    }
-});
-scrollHandler(); // Inicializa os estados no carregamento da página
+    });
 
-/*=============== SCROLL SECTIONS ACTIVE LINK (IntersectionObserver) ===============*/
-const sections = document.querySelectorAll('section[id]')
-
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.4 // Ativa o link quando 40% da seção estiver visível na tela
-};
-
-const observerCallback = (entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const id = entry.target.id;
-            const link = document.querySelector(`.nav__menu a[href*=${id}]`);
-            
-            // Remove a classe de todos os links antes de adicionar no novo
-            document.querySelectorAll('.nav__link').forEach(n => n.classList.remove('active-link'));
-            
-            if (link) {
-                link.classList.add('active-link');
+    document.addEventListener('keydown', (event) => {
+        if (!menuOpen) return;
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            setMenu(false, true);
+        } else if (event.key === 'Tab') {
+            const items = focusableItems();
+            const first = items[0];
+            const last = items[items.length - 1];
+            if (!first) {
+                event.preventDefault();
+                return;
+            }
+            if (event.shiftKey && (document.activeElement === first || !menu.contains(document.activeElement))) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && (document.activeElement === last || !menu.contains(document.activeElement))) {
+                event.preventDefault();
+                first.focus();
             }
         }
     });
-};
 
-const sectionObserver = new IntersectionObserver(observerCallback, observerOptions);
+    desktop.addEventListener('change', () => {
+        const focused = document.activeElement;
+        const focusInMenu = menu?.contains(document.activeElement);
+        setMenu(false, !desktop.matches && focusInMenu);
+        if (desktop.matches && (focused === close || focused === toggle)) navLinks[0]?.focus();
+    });
+    setMenu(false);
 
-sections.forEach(section => {
-    sectionObserver.observe(section);
-});
+    // Section starts work even when a section is taller than the viewport.
+    const sections = navLinks.map((link) => ({ link, section: targetFor(link) }))
+        .filter(({ section }) => section);
+    let ticking = false;
 
-/*=============== SCROLL REVEAL ANIMATION ===============*/
-const sr = ScrollReveal({
-    origin: 'top',
-    distance: '100px',
-    duration: 2500,
-    delay: 400,
-    // reset: true, // se quiser que a animação se repita toda vez que o usuário rolar a página
-});
+    function updateScrollState() {
+        ticking = false;
+        header?.classList.toggle('bg-header', window.scrollY > 24);
+        if (scrollUp) {
+            scrollUp.hidden = window.scrollY <= 350;
+            scrollUp.classList.toggle('show-scroll', !scrollUp.hidden);
+        }
 
-sr.reveal('.home__content, .services__data, .services__swiper, .footer__container')
-sr.reveal('.home__images', { origin: 'bottom', delay: 1000 })
-sr.reveal('.about__images, .contact__img', { origin: 'left', })
-sr.reveal('.about__data, .contact__data', { origin: 'right', })
-sr.reveal('.projects__card', { interval: 100 })
-
-/*=============== COOKIE BANNER LOGIC ===============*/
-const cookieBanner = document.getElementById('cookie-banner');
-const cookieAcceptBtn = document.getElementById('cookie-accept');
-
-if (cookieBanner && cookieAcceptBtn) {
-    if (!localStorage.getItem('cookieAccepted')) {
-        setTimeout(() => {
-            cookieBanner.classList.add('show-cookie');
-        }, 2000);
+        const threshold = (header?.getBoundingClientRect().bottom || 0) + 36;
+        const positions = sections.map((item) => ({ ...item, top: item.section.getBoundingClientRect().top }))
+            .sort((a, b) => a.top - b.top);
+        let current = positions[0];
+        positions.forEach((item) => {
+            if (item.top <= threshold) current = item;
+        });
+        if (window.scrollY > 0 && window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+            current = positions[positions.length - 1];
+        }
+        navLinks.forEach((link) => {
+            const active = link === current?.link;
+            link.classList.toggle('active-link', active);
+            if (active) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+        });
     }
 
-    cookieAcceptBtn.addEventListener('click', () => {
-        cookieBanner.classList.remove('show-cookie');
-        localStorage.setItem('cookieAccepted', 'true');
+    function requestScrollUpdate() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(updateScrollState);
+    }
+
+    window.addEventListener('scroll', requestScrollUpdate, { passive: true });
+    window.addEventListener('resize', requestScrollUpdate);
+    window.addEventListener('hashchange', requestScrollUpdate);
+    window.addEventListener('load', requestScrollUpdate);
+    updateScrollState();
+
+    // Content stays visible by default; animate only when it enters the viewport.
+    const reveals = [...document.querySelectorAll('[data-reveal]')];
+    let revealObserver;
+
+    function finishReveal(element) {
+        element.classList.add('is-visible');
+        element.classList.remove('is-entering');
+        revealObserver?.unobserve(element);
+    }
+
+    function revealAll() {
+        revealObserver?.disconnect();
+        reveals.forEach(finishReveal);
+    }
+
+    if (reducedMotion.matches || !('IntersectionObserver' in window)) {
+        revealAll();
+    } else {
+        try {
+            revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(({ target, isIntersecting }) => {
+                    if (!isIntersecting || target.classList.contains('is-visible')) return;
+                    finishReveal(target);
+                    if (!reducedMotion.matches && !target.matches(':focus-within')) {
+                        target.classList.add('is-entering');
+                    }
+                });
+            }, { threshold: 0, rootMargin: '0px 0px 32px 0px' });
+
+            reveals.forEach((element) => {
+                element.addEventListener('animationend', (event) => {
+                    if (event.target === element && event.animationName === 'reveal-in') finishReveal(element);
+                });
+                // Preserve immediate content on reloads and direct section links.
+                if (element.getBoundingClientRect().top < window.innerHeight) finishReveal(element);
+                else revealObserver.observe(element);
+            });
+        } catch {
+            revealAll();
+        }
+    }
+
+    document.addEventListener('focusin', (event) => {
+        const element = event.target.closest('[data-reveal]');
+        if (element) finishReveal(element);
     });
-}
+    window.addEventListener('beforeprint', revealAll);
+    reducedMotion.addEventListener('change', (event) => {
+        if (event.matches) revealAll();
+    });
+})();

@@ -1,0 +1,19 @@
+# GitHub Pages' standard Jekyll build: exclude documentation, internal
+# reference materials and unused libraries from the published website.
+exclude:
+  - README.md
+  - ANALISE_TECNICA.md
+  - SEGURANCA_SEO.md
+  - REVISAO_PUBLICACAO.md
+  - Text Responsive construction website.txt
+  - preview.png
+  - assets/IMAGE_SOURCES.md
+  - assets/HERO_IMAGE_PROMPT.md
+  - assets/IV
+  - assets/js/scrollreveal.min.js
+  - assets/js/swiper-bundle.min.js
+  - assets/css/swiper-bundle.min.css
+  - node_modules
+  - vendor
+  - Gemfile
+  - Gemfile.lock

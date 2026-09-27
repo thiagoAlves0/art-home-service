@@ -1,0 +1,22 @@
+# Local business reference materials and internal reviews.
+/assets/IV/
+/ANALISE_TECNICA.md
+/SEGURANCA_SEO.md
+/REVISAO_PUBLICACAO.md
+/.vscode/
+
+# Credentials, local environment files and temporary output.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.log
+*.bak
+.DS_Store
+Thumbs.db
+node_modules/
+_site/
+.jekyll-cache/

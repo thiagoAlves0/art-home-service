@@ -1,40 +1,36 @@
-<h1 align="center">Art Home Service 🏗️</h1>
+# Art Home Service
 
-<p align="center">
-  A premium, high-converting landing page crafted for a construction and home remodeling business. Designed with a deep focus on lead generation, modern architecture aesthetics, and a flawless mobile-first experience.
-</p>
+Site institucional da **Art Home Service**, empresa de pintura, instalação e restauração de pisos e limpeza de superfícies externas em Cape Cod, Massachusetts.
 
-## 🚀 Key Features
+[Visite o site](https://arthome.services/) · [Instagram da empresa](https://www.instagram.com/arthome.service/)
 
-- **Editorial Style Service Cards**: Responsive sliding cards (powered by Swiper.js) with fluid interactions, "glass" soft shadows, and high-contrast solid CTA buttons.
-- **Modern Neumorphism & Grid UI**: Built entirely with CSS Grid & Flexbox, avoiding heavy frameworks to maintain a pure, lightning-fast rendering speed.
-- **Smart Sticky Header**: Navigation dynamically adapts and sticks with glassmorphism effects upon scrolling.
-- **Subtle Interactions**: Smooth entrance animations driven by `ScrollReveal` alongside native CSS interactive hovers (`transform` & `box-shadow`).
-- **Fully Responsive**: Meticulously crafted breakpoints guaranteeing a tailored layout from small iPhones to Ultrawide monitors.
+## Sobre a empresa
 
-## 🛠️ Tech Stack
+Com base em **South Yarmouth**, a Art Home Service atende projetos residenciais e comerciais em Cape Cod. O site apresenta os serviços oferecidos, fotografias de trabalhos realizados e canais de contato para solicitar um orçamento.
 
-- **HTML5:** Semantic architecture following best practices for SEO and accessibility.
-- **CSS3:** Custom Variables (CSS Tokens), Mobile-First methodology, BEM (Block Element Modifier) naming convention for impeccable maintainability.
-- **JavaScript (Vanilla):** DOM manipulation, Scroll tracking, and custom Swiper instance logic.
-- **Libraries:** [Swiper JS](https://swiperjs.com/) (Touch sliders), [ScrollReveal](https://scrollrevealjs.org/) (Animations), [RemixIcon](https://remixicon.com/) (Iconography).
+## Serviços
 
-## 💻 Running Locally
+- Pintura interna e externa.
+- Instalação e restauração de pisos de madeira.
+- Instalação de pisos vinílicos.
+- Power washing de revestimentos externos, decks e entradas de veículos.
 
-Since this is a static web application, no build tools or package managers are required.
+## Presença digital
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/thiagoAlves0/art-home-service.git
-   ```
-2. Open the directory and simply run `index.html` in your browser. 
-*(For the best development experience, use the **Live Server** extension in VSCode)*.
+- Apresentação dos serviços e portfólio de projetos.
+- Navegação adaptada para celulares, tablets e computadores.
+- Galeria com fotografias de trabalhos da empresa.
+- Contato direto por telefone, WhatsApp, e-mail e Instagram.
 
-## 👨‍💻 Developed By
+Este repositório reúne os arquivos do site institucional desenvolvido para a Art Home Service.
 
-**Thiago Alves**
-- GitHub: [@thiagoAlves0](https://github.com/thiagoAlves0)
-- Intagram: [@thlago.alves](https://www.instagram.com/thlago.alves/)
+## Contato da empresa
 
----
-<p align="center"><i>"Building layouts as solid as physical architecture."</i></p>
+- **Telefone:** +1 (508) 280-5337
+- **E-mail:** [arthomeservice06@gmail.com](mailto:arthomeservice06@gmail.com)
+- **Endereço:** 10 Quartermaster Row, South Yarmouth, MA 02664, United States
+- **Instagram:** [@arthome.service](https://www.instagram.com/arthome.service/)
+
+## Desenvolvimento
+
+**Thiago Alves** — [GitHub](https://github.com/thiagoAlves0) · [Instagram](https://www.instagram.com/thlago.alves/)
